@@ -10,7 +10,7 @@ from apps.stocks.models import Stock
 # Create your views here.
 
 class StockViewSet(AbstractViewSet,ResponseHandlerMixin):
-    queryset = Stock.objects.filter()
+    queryset = Stock.objects.filter(is_active=True)
     serializer_class = StockSerializer
     permission_classes = [CustomPermissionClass]
     pagination_class = CustomDefaultPagination

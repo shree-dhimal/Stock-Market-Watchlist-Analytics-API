@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 from common_utils.models.mixins import BaseAuditModelMixin, BaseTimeStampModelMixin, SoftDeleteModelMixin
-from apps.users.models import Users
+from config import settings
 
 # Create your models here.
 class AccountsTypeSetup(BaseAuditModelMixin, BaseTimeStampModelMixin, SoftDeleteModelMixin):
@@ -50,7 +50,7 @@ class APIKey(BaseAuditModelMixin, BaseTimeStampModelMixin, SoftDeleteModelMixin)
     key = models.CharField(max_length=64, unique=True, db_index=True, default=uuid.uuid4().hex.upper())
 
     owner = models.ForeignKey(
-        Users,
+        settings.AUTH_USER_MODEL,
         on_delete=models.DO_NOTHING,
         related_name="api_keys",
         null=True,
@@ -81,7 +81,7 @@ class WebhookSubscription(BaseAuditModelMixin, BaseTimeStampModelMixin, SoftDele
 
 
     user = models.ForeignKey(
-        Users,
+        settings.AUTH_USER_MODEL,
         on_delete=models.DO_NOTHING,
         related_name="webhooks"
     )

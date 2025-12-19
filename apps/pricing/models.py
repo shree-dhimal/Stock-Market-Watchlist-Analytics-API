@@ -4,7 +4,7 @@ from django.db import models
 
 class StockPrice(BaseAuditModelMixin, BaseTimeStampModelMixin, SoftDeleteModelMixin):
 
-    stock = models.ForeignKey(Stock, on_delete=models.SET_NULL, related_name="prices")
+    stock = models.ForeignKey(Stock, on_delete=models.DO_NOTHING, related_name="prices")
     price = models.DecimalField(max_digits=20, decimal_places=4)
     source = models.CharField(max_length=50)
     timestamp = models.DateTimeField()

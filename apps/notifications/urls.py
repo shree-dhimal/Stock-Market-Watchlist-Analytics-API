@@ -1,27 +1,13 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
-
-from apps.users.views import AssignGroupDepartmentView, AssignGroupUserView, CreateGroupsPermissionsView, GetAllGroupsView, GetAllPermissionsView, GetUserSelfView, UserLoginView, UserLogoutView, UserViewSet
+from apps.notifications.views import PriceAlertViewSet
 
 # app_name = "users"
 
 router = DefaultRouter()
 
-router.register("user", UserViewSet, basename="users")
+router.register("price-alert", PriceAlertViewSet, basename="price-alerts")
 
 urlpatterns = [
-        path("login/", UserLoginView.as_view(), name="login"),  # Token generation
-        path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-        path("logout/", UserLogoutView.as_view(), name="user-logout"),
-        path("all-permissions/", GetAllPermissionsView.as_view(), name="all-permissions"),
-        path("all-groups/", GetAllGroupsView.as_view(), name="all-groups"),
-        path("all-groups/<int:id>/", GetAllGroupsView.as_view(), name="all-groups-detail"),
-        path("create-groups-permissions/", CreateGroupsPermissionsView.as_view(), name="create-groups-permissions"),
-        path("assign-groups-to-user/", AssignGroupUserView.as_view(), name="assign-groups-to-user"),
-        path("create-role-department-access/", AssignGroupDepartmentView.as_view(), name="create-role-department-access"),
-        path("user/self/", GetUserSelfView.as_view(), name="user-self"),
+        # path("login/", UserLoginView.as_view(), name="login"),  # Token generation
 ] + router.urls

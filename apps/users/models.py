@@ -21,6 +21,7 @@ class Users(AbstractUser, BaseTimeStampModelMixin, BaseAuditModelMixin, SoftDele
     preferred_currency = models.ForeignKey(CurrencySetup, on_delete=models.DO_NOTHING, null=True, blank=True, help_text="Preferred currency of the user")
 
     USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
     @property
     def full_name(self) -> str:

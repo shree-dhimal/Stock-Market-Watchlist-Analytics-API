@@ -1,6 +1,6 @@
 from common_utils.models.mixins import BaseAuditModelMixin, BaseTimeStampModelMixin, SoftDeleteModelMixin
 from django.db import models
-from apps.users.models import User
+from django.conf import settings
 from apps.stocks.models import Stock
 
 # Create your models here.
@@ -10,7 +10,7 @@ class PriceAlert(BaseAuditModelMixin, BaseTimeStampModelMixin, SoftDeleteModelMi
         BELOW = "below", "Price Below"
         PERCENT_CHANGE = "percent_change", "Percent Change"
 
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name="price_alerts")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, related_name="price_alerts")
     stock = models.ForeignKey(Stock, on_delete=models.DO_NOTHING, related_name="price_alerts")
 
     alert_type = models.CharField(max_length=20, choices=AlertType.choices, default=AlertType.PERCENT_CHANGE)
@@ -25,6 +25,6 @@ class PriceAlert(BaseAuditModelMixin, BaseTimeStampModelMixin, SoftDeleteModelMi
 
 
 class Notification(BaseAuditModelMixin, BaseTimeStampModelMixin, SoftDeleteModelMixin):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     message = models.TextField()
     is_read = models.BooleanField(default=False)
