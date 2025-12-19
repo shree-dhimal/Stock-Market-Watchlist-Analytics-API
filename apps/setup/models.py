@@ -1,5 +1,7 @@
+import uuid
 from django.db import models
 from common_utils.models.mixins import BaseAuditModelMixin, BaseTimeStampModelMixin, SoftDeleteModelMixin
+from apps.users.models import Users
 
 # Create your models here.
 class AccountsTypeSetup(BaseAuditModelMixin, BaseTimeStampModelMixin, SoftDeleteModelMixin):
@@ -39,3 +41,64 @@ class SMTPSettings(BaseAuditModelMixin, BaseTimeStampModelMixin, SoftDeleteModel
     class Meta:
         ordering = ['-created_at']
         db_table = 'smtp_settings_setup'
+
+
+class APIKey(BaseAuditModelMixin, BaseTimeStampModelMixin, SoftDeleteModelMixin):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    name = models.CharField(max_length=100)
+    key = models.CharField(max_length=64, unique=True, db_index=True, default=uuid.uuid4().hex.upper())
+
+    owner = models.ForeignKey(
+        Users,
+        on_delete=models.DO_NOTHING,
+        related_name="api_keys",
+        null=True,
+        blank=True
+    )
+
+    scopes = models.JSONField(default=list)
+    is_active = models.BooleanField(default=True)
+
+    last_used_at = models.DateTimeField(null=True, blank=True)
+    expires_at = models.DateTimeField(null=True, blank=True)
+
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["key"]),
+        ]
+
+    def __str__(self):
+        return f"{self.name} ({self.owner})"
+    
+
+
+class WebhookSubscription(BaseAuditModelMixin, BaseTimeStampModelMixin, SoftDeleteModelMixin):
+    class EventChoices(models.TextChoices):
+        PRICE_UPDATED = "price.updated", "Price Updated"
+        ALERT_TRIGGERED = "alert.triggered", "Alert Triggered"
+
+
+    user = models.ForeignKey(
+        Users,
+        on_delete=models.DO_NOTHING,
+        related_name="webhooks"
+    )
+
+    event = models.CharField(max_length=50, choices=EventChoices.choices)
+
+    target_url = models.URLField()
+    secret = models.CharField(max_length=128)
+
+    is_active = models.BooleanField(default=True)
+
+    failure_count = models.PositiveIntegerField(default=0)
+    last_failure_at = models.DateTimeField(null=True, blank=True)
+
+
+    class Meta:
+        unique_together = ("user", "event", "target_url")
+
+    def __str__(self):
+        return f"{self.event} -> {self.target_url}"

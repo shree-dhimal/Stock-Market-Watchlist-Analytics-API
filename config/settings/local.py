@@ -29,3 +29,9 @@ CACHES = {
         "LOCATION": "unique-snowflake",
     }
 }
+
+CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer",
+        },
+    }

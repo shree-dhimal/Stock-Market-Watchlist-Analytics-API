@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from apps.users.views import AssignGroupDepartmentView, AssignGroupUserView, CreateGroupsPermissionsView, GetAllGroupsView, GetAllPermissionsView, GetUserSelfView, UserLoginView, UserLogoutView, UserViewSet
+from apps.users.views import  AssignGroupUserView, CreateGroupsPermissionsView, GetAllGroupsView, GetAllPermissionsView, GetUserSelfView, UserLoginView, UserLogoutView, UserViewSet
 
 # app_name = "users"
 
@@ -22,6 +22,5 @@ urlpatterns = [
         path("all-groups/<int:id>/", GetAllGroupsView.as_view(), name="all-groups-detail"),
         path("create-groups-permissions/", CreateGroupsPermissionsView.as_view(), name="create-groups-permissions"),
         path("assign-groups-to-user/", AssignGroupUserView.as_view(), name="assign-groups-to-user"),
-        path("create-role-department-access/", AssignGroupDepartmentView.as_view(), name="create-role-department-access"),
         path("user/self/", GetUserSelfView.as_view(), name="user-self"),
 ] + router.urls

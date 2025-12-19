@@ -2,6 +2,9 @@ from django.conf import settings
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import  TokenError
 
+from apps.setup.models import APIKey
+from django.utils.timezone import now
+
 class JWTCookieAuthenticationBackend(JWTAuthentication):
     """
     Authenticate using JWT from cookie first, then fallback to header.
@@ -9,7 +12,7 @@ class JWTCookieAuthenticationBackend(JWTAuthentication):
     """
 
     def authenticate(self, request):
-        cookie_name = getattr(settings, "JWT_ACCESS", "housekeeping_access_token")
+        cookie_name = getattr(settings, "JWT_ACCESS", "access_token")
         raw_token = request.COOKIES.get(cookie_name)
 
 
@@ -30,6 +33,12 @@ class JWTCookieAuthenticationBackend(JWTAuthentication):
                 return super().authenticate(request)
             except TokenError:
                 return None
+        
+        key = request.headers.get("Authorization", "").replace("Api-Key ", "")
+        api_key = APIKey.objects.filter(key=key, is_active=True, expires_at__gte=now()).first()
+
+        if api_key:
+            return (api_key.owner, None)
 
         # No token found anywhere
         return None

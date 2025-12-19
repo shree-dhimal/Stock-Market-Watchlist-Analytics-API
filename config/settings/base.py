@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 from decouple import config
 
@@ -22,6 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
+
+MODE = config("MODE", default="development")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
@@ -49,7 +52,7 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     "rest_framework",
+    "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
 ]
@@ -68,6 +71,7 @@ PROJECT_APPS = [
 THIRD_PARTY_APPS = [
     "drf_spectacular",
     "corsheaders",
+    "channels",
 ]
 
 
@@ -119,7 +123,7 @@ ASGI_APPLICATION = 'config.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-if config("MODE", default="local") == "production":
+if config("MODE", default="development") == "production":
     DATABASES = {
         "default": {
             "ENGINE": config('DB_ENGINE'),  # Use db engine from environment variable
@@ -155,8 +159,8 @@ SIMPLE_JWT = {
 
 JWT_SECRET_KEY = config('SECRET_KEY')
 
-JWT_REFRESH = config('JWT_REFRESH', default='housekeeping_refresh_token')
-JWT_ACCESS = config('JWT_ACCESS', default='housekeeping_access_token')
+JWT_REFRESH = config('JWT_REFRESH', default='refresh_token')
+JWT_ACCESS = config('JWT_ACCESS', default='access_token')
 
 SESSION_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SAMESITE = "None"
