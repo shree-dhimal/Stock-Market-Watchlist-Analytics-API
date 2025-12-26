@@ -12,7 +12,7 @@ from apps.setup.serializers.account_type_setup import AccountsTypeSetupSerialize
 from apps.setup.serializers.currency_setup import CurrencySetupSerializer
 
 
-class AccountsTypeSetupViewSet(ResponseHandlerMixin, AbstractViewSet):
+class AccountsTypeSetupViewSet( AbstractViewSet):
     queryset = AccountsTypeSetup.objects.filter()
     serializer_class = AccountsTypeSetupSerializer
     permission_classes = [CustomPermissionClass]
@@ -21,7 +21,7 @@ class AccountsTypeSetupViewSet(ResponseHandlerMixin, AbstractViewSet):
     # extra_permissions = [] # Example for adding extra permissions
 
 
-class CurrencySetupViewSet(ResponseHandlerMixin, AbstractViewSet):
+class CurrencySetupViewSet(AbstractViewSet):
     queryset = CurrencySetup.objects.filter()
     serializer_class = CurrencySetupSerializer
     permission_classes = [CustomPermissionClass]
@@ -30,7 +30,7 @@ class CurrencySetupViewSet(ResponseHandlerMixin, AbstractViewSet):
     extra_permissions = []  # Example for adding extra permissions
 
 
-class SMTPSettingsViewSet(ResponseHandlerMixin, AbstractViewSet):
+class SMTPSettingsViewSet( AbstractViewSet):
     queryset = SMTPSettings.objects.filter()
     serializer_class = SMTPSettingsSerializer
     permission_classes = [CustomPermissionClass]
@@ -39,7 +39,7 @@ class SMTPSettingsViewSet(ResponseHandlerMixin, AbstractViewSet):
     extra_permissions = []  # Example for adding extra permissions
 
 
-class APIKeyViewSet(ResponseHandlerMixin, AbstractViewSet):
+class APIKeyViewSet( AbstractViewSet):
     queryset = APIKey.objects.filter().select_related('owner')
     serializer_class = APIKeySerializer  
     permission_classes = [CustomPermissionClass]
@@ -48,7 +48,7 @@ class APIKeyViewSet(ResponseHandlerMixin, AbstractViewSet):
     extra_permissions = []  # Example for adding extra permissions
 
 
-class WebhookSubscriptionViewSet(ResponseHandlerMixin, AbstractViewSet):
+class WebhookSubscriptionViewSet( AbstractViewSet):
     queryset = WebhookSubscription.objects.filter().select_related('user')
     serializer_class = WebhookSubscriptionSerializer
     permission_classes = [CustomPermissionClass]

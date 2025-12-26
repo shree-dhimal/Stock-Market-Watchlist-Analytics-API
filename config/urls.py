@@ -30,6 +30,7 @@ from django.conf.urls.static import static
 from apps.users.urls import urlpatterns as users_urlpatterns
 from apps.stocks.urls import urlpatterns as stocks_urlpatterns
 from apps.notifications.urls import urlpatterns as notifications_urlpatterns
+from apps.setup.urls import urlpatterns as setup_urlpatterns
 
 
 prefix = settings.BASE_PREFIX
@@ -45,6 +46,7 @@ urlpatterns = [
                 path("", include(users_urlpatterns)),
                 path("", include(stocks_urlpatterns)),
                 path("", include(notifications_urlpatterns)),
+                path("", include(setup_urlpatterns)),
                 # path("", include()),
             ]
         ),

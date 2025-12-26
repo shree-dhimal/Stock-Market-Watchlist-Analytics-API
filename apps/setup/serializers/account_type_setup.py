@@ -7,7 +7,7 @@ class AccountsTypeSetupSerializer(DynamicFieldsModelSerializer):
         model = AccountsTypeSetup
         fields = [
             "id",
-            "account_type_name",
+            "account_type",
             "description",
             "created_at",
             "updated_at",

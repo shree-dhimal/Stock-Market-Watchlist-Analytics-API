@@ -7,7 +7,7 @@ from apps.setup.views import  AccountsTypeSetupViewSet, CurrencySetupViewSet, SM
 router = DefaultRouter()
 
 router.register("account-type", AccountsTypeSetupViewSet, basename="account-types")
-router.register("currency", CurrencySetupViewSet, basename="account-types")
+router.register("currency", CurrencySetupViewSet, basename="currencies")
 router.register("smtp-settings", SMTPSettingsViewSet, basename="smtp-settings")
 router.register("api-key", APIKeyViewSet, basename="api-keys")
 router.register("webhook-subscription", WebhookSubscriptionViewSet, basename="webhook-subscriptions")

@@ -126,7 +126,7 @@ ASGI_APPLICATION = 'config.asgi.application'
 if config("MODE", default="development") == "production":
     DATABASES = {
         "default": {
-            "ENGINE": config('DB_ENGINE'),  # Use db engine from environment variable
+            "ENGINE": "django.db.backends.postgresql",  # Use db engine from environment variable
             "NAME": config('DB_NAME'),  # Replace with your database name
             "USER": config('DB_USER'),  # Replace with your database username
             "PASSWORD": config('DB_PASSWORD'),  # Replace with your database password
